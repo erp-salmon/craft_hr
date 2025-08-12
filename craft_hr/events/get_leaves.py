@@ -31,7 +31,7 @@ def get_leaves(date_of_joining, allocation_start_date, leave_distribution_templa
         leaves=0
     return leaves
 
-def get_earned_leave(employee=None, leave_type=None):
+def get_earned_leave(employee=None):
     filters = {
         'docstatus':1,
         'custom_leave_distribution_template':['is','set'],
@@ -39,8 +39,6 @@ def get_earned_leave(employee=None, leave_type=None):
     }
     if employee:
         filters['employee'] = employee
-    if leave_type:
-        filters['leave_type'] = leave_type
     for la in frappe.db.get_list('Leave Allocation', filters):
         doc = frappe.get_doc('Leave Allocation', la.name)
         to_date = frappe.utils.getdate()

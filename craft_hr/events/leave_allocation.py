@@ -12,7 +12,7 @@ def validate(doc,method):
 
 def before_submit(doc,method):
     if doc.custom_is_earned_leave:
-        get_earned_leave(doc.employee, doc.leave_type)
+        get_earned_leave(doc.employee)
 
 #TODO: Make sure there is no leave application across the leave allocation after today date before closing
 
