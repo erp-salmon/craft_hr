@@ -10,6 +10,8 @@
   "hr_features_section",
   "leave_allocation_based_on_leave_distribution_template",
   "reset_allocation_with_carry_forward",
+  "shift_section",
+  "manually_add_shift_hours",
   "ticket_allocation_section",
   "threshold_amount",
   "threshold_no_of_days",
@@ -66,12 +68,23 @@
    "fieldtype": "Float",
    "label": "Per Day Amount",
    "read_only": 1
+  },
+  {
+   "fieldname": "shift_section",
+   "fieldtype": "Section Break",
+   "label": "Shift"
+  },
+  {
+   "default": "0",
+   "fieldname": "manually_add_shift_hours",
+   "fieldtype": "Check",
+   "label": "Manually Add Shift Hours"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-04-21 13:34:17.932281",
+ "modified": "2025-08-21 11:23:28.434400",
  "modified_by": "Administrator",
  "module": "Craft HR",
  "name": "Craft HR Settings",
@@ -88,6 +101,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
