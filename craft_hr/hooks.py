@@ -41,6 +41,7 @@ doctype_js = {
     "Leave Allocation":"public/js/leave_allocation.js",
     "Additional Salary":"public/js/additional_salary.js",
     "Shift Type":"public/js/shift_type.js",
+    "Payroll Entry":"public/js/payroll_entry.js",
 }
 
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
