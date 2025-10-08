@@ -1,0 +1,155 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-09-19 13:26:14.960859",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "employee",
+  "accommodation_info",
+  "column_break_zhlj",
+  "accommodation_type",
+  "details_section",
+  "from_column",
+  "from_building_name",
+  "from_floor_no",
+  "from_room_no",
+  "from_bed_no",
+  "to_column",
+  "to_building_name",
+  "to_floor_no",
+  "to_room_no",
+  "to_bed_no",
+  "section_break_ajzq",
+  "allocations"
+ ],
+ "fields": [
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "label": "Employee",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "accommodation_info",
+   "fieldtype": "HTML",
+   "label": "Accommodation Info"
+  },
+  {
+   "fieldname": "column_break_zhlj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "allocations",
+   "fieldtype": "Table",
+   "label": "Allocations",
+   "options": "Accommodation Transfer Item"
+  },
+  {
+   "fieldname": "accommodation_type",
+   "fieldtype": "Select",
+   "label": "Accommodation Type",
+   "options": "\nAllocation\nTransfer\nExit"
+  },
+  {
+   "depends_on": "eval:doc.accommodation_type != \"Allocation\"",
+   "fetch_from": "employee.custom_building_name",
+   "fieldname": "from_building_name",
+   "fieldtype": "Link",
+   "label": "Building Name",
+   "options": "Building"
+  },
+  {
+   "depends_on": "eval:doc.accommodation_type != \"Allocation\"",
+   "fetch_from": "employee.custom_floor_number",
+   "fieldname": "from_floor_no",
+   "fieldtype": "Link",
+   "label": "Floor No",
+   "options": "Floor"
+  },
+  {
+   "depends_on": "eval:doc.accommodation_type != \"Allocation\"",
+   "fetch_from": "employee.custom_room_number",
+   "fieldname": "from_room_no",
+   "fieldtype": "Link",
+   "label": "Room No",
+   "options": "Room"
+  },
+  {
+   "depends_on": "eval:doc.accommodation_type != \"Allocation\"",
+   "fetch_from": "employee.custom_bed_number",
+   "fieldname": "from_bed_no",
+   "fieldtype": "Link",
+   "label": "Bed No",
+   "options": "Bed"
+  },
+  {
+   "fieldname": "details_section",
+   "fieldtype": "Section Break",
+   "label": "Details"
+  },
+  {
+   "depends_on": "eval:doc.accommodation_type == \"Allocation\"",
+   "fieldname": "from_column",
+   "fieldtype": "Column Break",
+   "label": "From"
+  },
+  {
+   "fieldname": "to_column",
+   "fieldtype": "Column Break",
+   "label": "To"
+  },
+  {
+   "fieldname": "to_building_name",
+   "fieldtype": "Link",
+   "label": "Building Name",
+   "options": "Building"
+  },
+  {
+   "fieldname": "to_floor_no",
+   "fieldtype": "Link",
+   "label": "Floor No",
+   "options": "Floor"
+  },
+  {
+   "fieldname": "to_room_no",
+   "fieldtype": "Link",
+   "label": "Room No",
+   "options": "Room"
+  },
+  {
+   "fieldname": "to_bed_no",
+   "fieldtype": "Link",
+   "label": "Bed No",
+   "options": "Bed"
+  },
+  {
+   "fieldname": "section_break_ajzq",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-09-20 14:06:57.822182",
+ "modified_by": "Administrator",
+ "module": "Accommodation",
+ "name": "Accommodation Transfer Form",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

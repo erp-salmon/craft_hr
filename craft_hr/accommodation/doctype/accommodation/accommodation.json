@@ -1,0 +1,108 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-09-18 15:49:40.283660",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_m26h",
+  "amended_from",
+  "building_name",
+  "accommodation_place",
+  "accommodation_owner",
+  "accommodation_start_date",
+  "accommodation_end_date",
+  "column_break_ogfy",
+  "floor",
+  "room",
+  "bed"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_m26h",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Accommodation",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "accommodation_owner",
+   "fieldtype": "Data",
+   "label": "Accommodation Owner"
+  },
+  {
+   "fieldname": "accommodation_place",
+   "fieldtype": "Link",
+   "label": "Accommodation Place",
+   "options": "Location"
+  },
+  {
+   "fieldname": "accommodation_start_date",
+   "fieldtype": "Date",
+   "label": "Accommodation Start Date"
+  },
+  {
+   "fieldname": "accommodation_end_date",
+   "fieldtype": "Date",
+   "label": "Accommodation End Date"
+  },
+  {
+   "fieldname": "column_break_ogfy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "floor",
+   "fieldtype": "Int",
+   "label": "Floor"
+  },
+  {
+   "fieldname": "room",
+   "fieldtype": "Int",
+   "label": "Room"
+  },
+  {
+   "fieldname": "bed",
+   "fieldtype": "Int",
+   "label": "Bed"
+  },
+  {
+   "fieldname": "building_name",
+   "fieldtype": "Link",
+   "label": "Building Name",
+   "options": "Building"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-09-20 10:16:36.780726",
+ "modified_by": "Administrator",
+ "module": "Accommodation",
+ "name": "Accommodation",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -8,9 +8,12 @@ app_email = "info@craftinteractive.ae"
 app_license = "MIT"
 
 fixtures = [
-    {'dt':'Custom Field', 'filters':[['module', 'in', {"Craft HR", "OT Mgmt"}]]},
-    {'dt':'Property Setter', 'filters':[['module', 'in', {"Craft HR", "OT Mgmt"}]]},
-    {'dt':'Report', 'filters':[['name', 'in', {"Overtime Summary"}]]},
+    {'dt':'Custom Field', 'filters':[['module', 'in', {"Craft HR", "OT Mgmt","Accommodation"}]]},
+    {'dt':'Property Setter', 'filters':[['module', 'in', {"Craft HR", "OT Mgmt", "Accommodation"}]]},
+    {'dt':'Report', 'filters':[['name', 'in', {"Overtime Summary", "Accommodation"}]]},
+    {'dt':'Module Def', 'filters':[['name', 'in', {"Accommodation"}]]},
+    {'dt':'Workspace', 'filters':[['name', 'in', {"Accommodation"}]]},
+
     ]
 
 # Includes in <head>

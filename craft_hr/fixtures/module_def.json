@@ -1,0 +1,17 @@
+[
+ {
+  "_assign": null,
+  "_comments": null,
+  "_liked_by": null,
+  "_user_tags": null,
+  "app_name": "craft_hr",
+  "custom": 0,
+  "docstatus": 0,
+  "doctype": "Module Def",
+  "modified": "2024-11-15 16:03:51.999943",
+  "module_name": "Accommodation",
+  "name": "Accommodation",
+  "package": null,
+  "restrict_to_domain": null
+ }
+]
