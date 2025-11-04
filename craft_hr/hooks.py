@@ -170,7 +170,9 @@ doc_events = {
         "on_cancel": "craft_hr.events.attendance.on_cancel"
     },
 	"Salary Slip": {
-		"before_validate": "craft_hr.events.salary_slip.before_validate"
+		"before_validate": "craft_hr.events.salary_slip.before_validate",
+        "on_submit": "craft_hr.events.salary_slip.on_salary_slip_submit",
+        "on_cancel": "craft_hr.events.salary_slip.on_salary_slip_cancel"
 	},
     "Shift Type": {
         "before_validate":"craft_hr.events.shift_type.before_validate"

@@ -130,3 +130,35 @@ def unmark_deductions_as_reimbursed(doc, method):
     for name in deductions:
         deduction_doc = frappe.get_doc("Additional Salary", name)
         deduction_doc.db_set("custom_deferred_payment_reimbursed", 0)
+
+
+import frappe
+from frappe.utils import getdate
+from dateutil.relativedelta import relativedelta
+
+@frappe.whitelist()
+def update_recovery_dates(docname, new_from, new_to):
+    doc = frappe.get_doc("Additional Salary", docname)
+
+    doc.db_set("from_date", new_from)
+    doc.db_set("to_date", new_to)
+
+    balance = float(doc.actual_amount) - float(doc.deducted_amount or 0)
+
+    # if balance <= 0:
+    #     doc.db_set("amount", 0)
+    #     return
+
+    start = getdate(new_from)
+    end = getdate(new_to)
+    months = ((end.year - start.year) * 12) + (end.month - start.month) + 1
+
+    if months < 1:
+        months = 1
+
+    new_monthly = balance / months
+
+    doc.db_set("amount", round(new_monthly, 2))
+    doc.db_set("balance_amount", balance)
+
+    frappe.db.commit()
