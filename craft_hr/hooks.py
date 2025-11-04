@@ -45,6 +45,8 @@ doctype_js = {
     "Additional Salary":"public/js/additional_salary.js",
     "Shift Type":"public/js/shift_type.js",
     "Payroll Entry":"public/js/payroll_entry.js",
+    "Company":"public/js/company.js",
+    "Employee Advance":"public/js/employee_advance.js",
 }
 
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
@@ -180,6 +182,9 @@ doc_events = {
         "before_submit": "craft_hr.events.additional_salary.mark_deductions_as_reimbursed",
         "on_cancel": "craft_hr.events.additional_salary.unmark_deductions_as_reimbursed"
 
+    },
+    "Employee Advance": {
+        "validate": "craft_hr.events.employee_advance.validate"
     }
 }
 

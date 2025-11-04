@@ -6,45 +6,30 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "basic",
-  "hra",
-  "transport_allowance",
+  "sc_basic",
+  "sc_hra",
   "increment_date",
   "increment_amount",
-  "other_allowance",
-  "food_allowance",
-  "mobile_allowance",
-  "car_allowance",
-  "leave_encashment_amount_per_day",
+  "net_amount",
+  "sc_transport",
+  "sc_other",
+  "sc_food",
+  "sc_mobile",
+  "sc_car",
+  "custom_leave_encashment_amount_per_day",
   "column_break_xqzh",
-  "cost_of_living_allowance",
+  "sc_cola",
   "insurance_allowance",
-  "holiday_overtime_rate",
-  "overtime_hourly_rate",
-  "fuel_allowance",
+  "holiday_ot_rate",
+  "sc_ot",
+  "sc_fuel",
+  "custom_pension_percentage",
+  "leave_salary",
   "job_well_done",
   "position_level",
   "attendance_bonus"
  ],
  "fields": [
-  {
-   "fieldname": "basic",
-   "fieldtype": "Currency",
-   "in_list_view": 1,
-   "label": "Basic"
-  },
-  {
-   "fieldname": "hra",
-   "fieldtype": "Currency",
-   "in_list_view": 1,
-   "label": "HRA"
-  },
-  {
-   "fieldname": "transport_allowance",
-   "fieldtype": "Currency",
-   "in_list_view": 1,
-   "label": "Transport Allowance"
-  },
   {
    "fieldname": "increment_date",
    "fieldtype": "Date",
@@ -55,71 +40,18 @@
    "fieldname": "increment_amount",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Increment Amount"
-  },
-  {
-   "fieldname": "other_allowance",
-   "fieldtype": "Currency",
-   "in_list_view": 1,
-   "label": "Other Allowance"
-  },
-  {
-   "fieldname": "food_allowance",
-   "fieldtype": "Currency",
-   "in_list_view": 1,
-   "label": "Food Allowance"
-  },
-  {
-   "fieldname": "mobile_allowance",
-   "fieldtype": "Currency",
-   "in_list_view": 1,
-   "label": "Mobile Allowance"
-  },
-  {
-   "fieldname": "car_allowance",
-   "fieldtype": "Currency",
-   "in_list_view": 1,
-   "label": "Car Allowance"
-  },
-  {
-   "fieldname": "leave_encashment_amount_per_day",
-   "fieldtype": "Currency",
-   "in_list_view": 1,
-   "label": "Leave Encashment Amount Per Day"
+   "label": "Increment Amount",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_xqzh",
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "cost_of_living_allowance",
-   "fieldtype": "Currency",
-   "in_list_view": 1,
-   "label": "Cost of Living Allowance"
-  },
-  {
    "fieldname": "insurance_allowance",
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Insurance Allowance"
-  },
-  {
-   "fieldname": "holiday_overtime_rate",
-   "fieldtype": "Currency",
-   "in_list_view": 1,
-   "label": "Holiday Overtime Rate"
-  },
-  {
-   "fieldname": "overtime_hourly_rate",
-   "fieldtype": "Currency",
-   "in_list_view": 1,
-   "label": "Overtime Hourly Rate"
-  },
-  {
-   "fieldname": "fuel_allowance",
-   "fieldtype": "Currency",
-   "in_list_view": 1,
-   "label": "Fuel Allowance"
   },
   {
    "fieldname": "job_well_done",
@@ -138,17 +70,107 @@
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Attendance Bonus"
+  },
+  {
+   "columns": 2,
+   "fieldname": "net_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Net Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sc_basic",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Basic"
+  },
+  {
+   "fieldname": "sc_hra",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "HRA"
+  },
+  {
+   "fieldname": "sc_transport",
+   "fieldtype": "Currency",
+   "label": "Transport Allowance"
+  },
+  {
+   "fieldname": "sc_other",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Other Allowance"
+  },
+  {
+   "fieldname": "sc_food",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Food Allowance"
+  },
+  {
+   "fieldname": "sc_mobile",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Mobile Allowance"
+  },
+  {
+   "fieldname": "sc_car",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Car Allowance"
+  },
+  {
+   "fieldname": "custom_leave_encashment_amount_per_day",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Leave Encashment Amount Per Day"
+  },
+  {
+   "fieldname": "sc_cola",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Cost of Living Allowance"
+  },
+  {
+   "fieldname": "holiday_ot_rate",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Holiday Overtime Rate"
+  },
+  {
+   "fieldname": "sc_ot",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Overtime Hourly Rate"
+  },
+  {
+   "fieldname": "sc_fuel",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Fuel Allowance"
+  },
+  {
+   "fieldname": "custom_pension_percentage",
+   "fieldtype": "Percent",
+   "label": "Pension %"
+  },
+  {
+   "fieldname": "leave_salary",
+   "fieldtype": "Percent",
+   "label": "Leave Salary"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-01-21 16:12:40.134748",
+ "modified": "2025-11-03 16:25:14.118477",
  "modified_by": "Administrator",
  "module": "Craft HR",
  "name": "Salary Components",
  "owner": "Administrator",
  "permissions": [],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []
