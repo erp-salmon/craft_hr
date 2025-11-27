@@ -290,5 +290,5 @@ override_doctype_dashboards = {
 
 #TODO: Not Working. 2 overrides...
 override_doctype_dashboards = {
-	"Employee": "craft_hr.overrides.dashboard_overrides.get_dashboard_for_employee",
+	# "Employee": "craft_hr.overrides.dashboard_overrides.get_dashboard_for_employee",
 }
