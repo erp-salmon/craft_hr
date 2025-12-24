@@ -61,28 +61,26 @@ def process_deduction(doc, is_cancel=False):
         sal_to = getdate(sal.to_date)
 
         # ✅ Deduct only if slip month falls in Additional Salary period
-        if slip_start < sal_from or slip_end > sal_to:
-            continue
+        if sal_from <= slip_end and sal_to >= slip_start:
+            monthly = float(sal.amount)
+            deducted = float(sal.deducted_amount or 0)
+            balance = float(sal.balance_amount or sal.actual_amount)
 
-        monthly = float(sal.amount)
-        deducted = float(sal.deducted_amount or 0)
-        balance = float(sal.balance_amount or sal.actual_amount)
+            if not is_cancel:
+                deducted += monthly
+            else:
+                deducted -= monthly
+                if deducted < 0:
+                    deducted = 0
 
-        if not is_cancel:
-            deducted += monthly
-        else:
-            deducted -= monthly
-            if deducted < 0:
-                deducted = 0
+            balance = float(sal.actual_amount) - deducted
+            if balance < 0:
+                balance = 0
 
-        balance = float(sal.actual_amount) - deducted
-        if balance < 0:
-            balance = 0
-
-        frappe.db.set_value("Additional Salary", sal.name, {
-            "deducted_amount": deducted,
-            "balance_amount": balance
-        })
+            frappe.db.set_value("Additional Salary", sal.name, {
+                "deducted_amount": deducted,
+                "balance_amount": balance
+            })
 
         # # ✅ Stop recurring when fully recovered
         # if balance == 0 and not is_cancel:
