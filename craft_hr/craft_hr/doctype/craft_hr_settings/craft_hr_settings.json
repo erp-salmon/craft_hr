@@ -9,7 +9,19 @@
  "field_order": [
   "hr_features_section",
   "leave_allocation_based_on_leave_distribution_template",
+  "include_partial_months_in_earned_leave",
+  "column_break_leave_1",
   "reset_allocation_with_carry_forward",
+  "max_carry_forward_leaves",
+  "leave_automation_section",
+  "auto_close_on_employee_separation",
+  "auto_close_expired_allocations",
+  "shift_section",
+  "manually_add_shift_hours",
+  "ticket_allocation_section",
+  "threshold_amount",
+  "threshold_no_of_days",
+  "per_day_amount",
   "payroll_features_section",
   "assign_salary_components_during_assignment"
  ],
@@ -17,13 +29,58 @@
   {
    "fieldname": "hr_features_section",
    "fieldtype": "Section Break",
-   "label": "HR Features"
+   "label": "Leave Allocation Settings"
   },
   {
    "default": "0",
    "fieldname": "leave_allocation_based_on_leave_distribution_template",
    "fieldtype": "Check",
    "label": "Leave Allocation based on Leave Distribution Template"
+  },
+  {
+   "default": "0",
+   "depends_on": "leave_allocation_based_on_leave_distribution_template",
+   "description": "If enabled, employees with 15+ days in a month will be credited for that partial month",
+   "fieldname": "include_partial_months_in_earned_leave",
+   "fieldtype": "Check",
+   "label": "Include Partial Months in Earned Leave"
+  },
+  {
+   "fieldname": "column_break_leave_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "reset_allocation_with_carry_forward",
+   "fieldtype": "Check",
+   "label": "Reset Allocation with Carry Forward"
+  },
+  {
+   "default": "0",
+   "depends_on": "reset_allocation_with_carry_forward",
+   "description": "Maximum leaves that can be carried forward to the next period. Set 0 for unlimited.",
+   "fieldname": "max_carry_forward_leaves",
+   "fieldtype": "Float",
+   "label": "Max Carry Forward Leaves"
+  },
+  {
+   "fieldname": "leave_automation_section",
+   "fieldtype": "Section Break",
+   "label": "Leave Allocation Automation"
+  },
+  {
+   "default": "1",
+   "description": "Automatically close leave allocations when employee status changes to Left/Inactive or relieving date is set",
+   "fieldname": "auto_close_on_employee_separation",
+   "fieldtype": "Check",
+   "label": "Auto Close on Employee Separation"
+  },
+  {
+   "default": "1",
+   "description": "Automatically close expired leave allocations (where to_date has passed) via daily scheduler",
+   "fieldname": "auto_close_expired_allocations",
+   "fieldtype": "Check",
+   "label": "Auto Close Expired Allocations"
   },
   {
    "fieldname": "payroll_features_section",
@@ -37,16 +94,42 @@
    "label": "Assign salary components during assignment"
   },
   {
+   "fieldname": "ticket_allocation_section",
+   "fieldtype": "Section Break",
+   "label": "Ticket Allocation"
+  },
+  {
+   "fieldname": "threshold_amount",
+   "fieldtype": "Float",
+   "label": "Threshold Amount"
+  },
+  {
+   "fieldname": "threshold_no_of_days",
+   "fieldtype": "Float",
+   "label": "Threshold No of Days"
+  },
+  {
+   "fieldname": "per_day_amount",
+   "fieldtype": "Float",
+   "label": "Per Day Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "shift_section",
+   "fieldtype": "Section Break",
+   "label": "Shift"
+  },
+  {
    "default": "0",
-   "fieldname": "reset_allocation_with_carry_forward",
+   "fieldname": "manually_add_shift_hours",
    "fieldtype": "Check",
-   "label": "Reset Allocation with Carry Forward"
+   "label": "Manually Add Shift Hours"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-06-14 15:29:41.825863",
+ "modified": "2025-08-21 11:23:28.434400",
  "modified_by": "Administrator",
  "module": "Craft HR",
  "name": "Craft HR Settings",
@@ -63,6 +146,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
