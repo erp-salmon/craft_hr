@@ -9,13 +9,17 @@
  "field_order": [
   "hr_features_section",
   "leave_allocation_based_on_leave_distribution_template",
-  "include_partial_months_in_earned_leave",
+  "earned_leave_proration_method",
   "column_break_leave_1",
   "reset_allocation_with_carry_forward",
   "max_carry_forward_leaves",
   "leave_automation_section",
   "auto_close_on_employee_separation",
   "auto_close_expired_allocations",
+  "leave_encashment_section",
+  "encashment_days_method",
+  "column_break_encashment",
+  "encashment_amount_method",
   "shift_section",
   "manually_add_shift_hours",
   "ticket_allocation_section",
@@ -38,12 +42,13 @@
    "label": "Leave Allocation based on Leave Distribution Template"
   },
   {
-   "default": "0",
+   "default": "Monthly",
    "depends_on": "leave_allocation_based_on_leave_distribution_template",
-   "description": "If enabled, employees with 15+ days in a month will be credited for that partial month",
-   "fieldname": "include_partial_months_in_earned_leave",
-   "fieldtype": "Check",
-   "label": "Include Partial Months in Earned Leave"
+   "description": "Monthly: Full months only. Monthly (15+ days): Partial months with 15+ days count as full. Daily: Exact day-based pro-rating.",
+   "fieldname": "earned_leave_proration_method",
+   "fieldtype": "Select",
+   "label": "Earned Leave Proration Method",
+   "options": "Monthly\nMonthly (15+ days)\nDaily"
   },
   {
    "fieldname": "column_break_leave_1",
@@ -81,6 +86,31 @@
    "fieldname": "auto_close_expired_allocations",
    "fieldtype": "Check",
    "label": "Auto Close Expired Allocations"
+  },
+  {
+   "fieldname": "leave_encashment_section",
+   "fieldtype": "Section Break",
+   "label": "Leave Encashment Settings"
+  },
+  {
+   "default": "Auto",
+   "fieldname": "encashment_days_method",
+   "fieldtype": "Select",
+   "label": "Encashable Days Method",
+   "options": "Auto\nManual",
+   "description": "Auto: Calculate based on leave balance and Leave Type rules. Manual: User enters encashable days."
+  },
+  {
+   "fieldname": "column_break_encashment",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Auto",
+   "fieldname": "encashment_amount_method",
+   "fieldtype": "Select",
+   "label": "Encashment Amount Method",
+   "options": "Auto\nManual",
+   "description": "Auto: Fetch from Salary Structure Assignment. Manual: User enters encashment amount."
   },
   {
    "fieldname": "payroll_features_section",

@@ -5,14 +5,14 @@ from craft_hr.events.get_leaves import get_leaves, get_earned_leave
 def validate(doc, method):
     # TODO: use is_earned_leave from inside leave type for this logic
     if doc.custom_is_earned_leave and doc.custom_leave_distribution_template:
-        include_partial_months = frappe.db.get_single_value(
-            "Craft HR Settings", "include_partial_months_in_earned_leave"
-        ) or 0
+        proration_method = frappe.db.get_single_value(
+            "Craft HR Settings", "earned_leave_proration_method"
+        ) or "Monthly"
         total_opening_leaves = get_leaves(
             doc.custom_date_of_joining,
             doc.from_date,
             doc.custom_leave_distribution_template,
-            include_partial_months
+            proration_method=proration_method
         ) or 0
         doc.custom_used_leaves = total_opening_leaves - doc.custom_opening_leaves
         doc.custom_opening_used_leaves = total_opening_leaves - doc.custom_opening_leaves

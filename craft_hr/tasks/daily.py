@@ -33,7 +33,7 @@ def reset_leave_allocation():
     settings = frappe.get_single("Craft HR Settings")
     carry_forward = settings.reset_allocation_with_carry_forward or 0
     max_carry_forward = settings.max_carry_forward_leaves or 0
-    include_partial_months = settings.include_partial_months_in_earned_leave or 0
+    proration_method = settings.earned_leave_proration_method or "Monthly"
 
     # Get employee data in batch
     employee_ids = list(set(a.employee for a in allocations))
@@ -95,21 +95,23 @@ def reset_leave_allocation():
                     date_of_joining,
                     alloc.to_date,
                     alloc.custom_leave_distribution_template,
-                    include_partial_months
+                    proration_method=proration_method
                 )
                 # Unused = Total earned - Opening used - New used
                 total_used = alloc.custom_used_leaves or 0
                 unused_leaves = total_earned - total_used
             else:
                 # Standard allocation: total_leaves_allocated - leaves_taken
-                # Using the standard Frappe calculation
-                unused_leaves = (alloc.total_leaves_allocated or 0) - frappe.db.count('Leave Application', {
-                    'employee': alloc.employee,
-                    'leave_type': alloc.leave_type,
-                    'docstatus': 1,
-                    'from_date': ['>=', alloc.from_date],
-                    'to_date': ['<=', alloc.to_date]
-                })
+                leaves_taken = frappe.db.sql("""
+                    SELECT COALESCE(SUM(total_leave_days), 0)
+                    FROM `tabLeave Application`
+                    WHERE employee = %s
+                    AND leave_type = %s
+                    AND docstatus = 1
+                    AND from_date >= %s
+                    AND to_date <= %s
+                """, (alloc.employee, alloc.leave_type, alloc.from_date, alloc.to_date))[0][0]
+                unused_leaves = (alloc.total_leaves_allocated or 0) - leaves_taken
 
             # Apply max carry forward limit if set
             if max_carry_forward > 0 and unused_leaves > max_carry_forward:

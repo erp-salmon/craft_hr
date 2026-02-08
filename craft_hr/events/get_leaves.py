@@ -43,7 +43,7 @@ def clear_template_cache():
     _template_cache = {}
 
 
-def get_leaves(date_of_joining, allocation_start_date, leave_distribution_template=None, include_partial_months=False):
+def get_leaves(date_of_joining, allocation_start_date, leave_distribution_template=None, include_partial_months=False, proration_method=None):
     """
     Calculate earned leaves based on leave distribution template.
 
@@ -51,37 +51,82 @@ def get_leaves(date_of_joining, allocation_start_date, leave_distribution_templa
         date_of_joining: Employee's date of joining
         allocation_start_date: Date to calculate leaves up to
         leave_distribution_template: Name of the template to use
-        include_partial_months: If True, credit partial months with 15+ days
+        include_partial_months: If True, credit partial months with 15+ days (legacy, use proration_method)
+        proration_method: 'Monthly', 'Monthly (15+ days)', or 'Daily'
 
     Returns:
         float: Number of earned leaves
     """
     doj = frappe.utils.getdate(date_of_joining)
     alloc_date = frappe.utils.getdate(allocation_start_date)
-    diff = relativedelta(alloc_date, doj)
-    opening_months = diff.years * 12 + diff.months
 
-    # Include partial month if setting enabled and 15+ days
-    if include_partial_months and diff.days >= 15:
-        opening_months += 1
-
-    if opening_months < 0:
+    if alloc_date < doj:
         frappe.throw("Leave Period from date should be after employee joining date")
-
-    if opening_months == 0:
-        return 0
 
     template_data = get_template_data(leave_distribution_template)
     cumulative_allocation = template_data['cumulative_allocation']
+    month_array = template_data['month_array']
     max_months = template_data['max_months']
     max_month_key = template_data['max_month_key']
 
-    if opening_months <= max_month_key:
-        leaves = cumulative_allocation.get(opening_months, 0)
-    else:
-        leaves = cumulative_allocation[max_months] + cumulative_allocation[0] * (opening_months - max_months)
+    # Handle legacy parameter
+    if proration_method is None:
+        proration_method = "Monthly (15+ days)" if include_partial_months else "Monthly"
 
-    return leaves
+    diff = relativedelta(alloc_date, doj)
+    full_months = diff.years * 12 + diff.months
+    extra_days = diff.days
+
+    if proration_method == "Daily":
+        # Daily pro-rating: full months + proportional days
+        leaves = 0
+
+        # Calculate leaves for full months
+        if full_months > 0:
+            if full_months <= max_month_key:
+                leaves = cumulative_allocation.get(full_months, 0)
+            else:
+                leaves = cumulative_allocation[max_months] + cumulative_allocation[0] * (full_months - max_months)
+
+        # Pro-rate extra days
+        if extra_days > 0:
+            # Get the monthly allocation for the next month
+            next_month = full_months + 1
+            if next_month <= max_month_key:
+                monthly_alloc = month_array.get(next_month, 0)
+            else:
+                monthly_alloc = month_array.get(0, 0)  # Use the recurring rate
+
+            # Calculate days in the partial month
+            partial_month_start = doj + relativedelta(months=full_months)
+            days_in_month = (partial_month_start + relativedelta(months=1) - partial_month_start).days
+            daily_rate = monthly_alloc / days_in_month
+            leaves += daily_rate * extra_days
+
+        return round(leaves, 2)
+
+    elif proration_method == "Monthly (15+ days)":
+        # Include partial month if 15+ days
+        opening_months = full_months
+        if extra_days >= 15:
+            opening_months += 1
+
+        if opening_months == 0:
+            return 0
+
+        if opening_months <= max_month_key:
+            return cumulative_allocation.get(opening_months, 0)
+        else:
+            return cumulative_allocation[max_months] + cumulative_allocation[0] * (opening_months - max_months)
+
+    else:  # Monthly (full months only)
+        if full_months == 0:
+            return 0
+
+        if full_months <= max_month_key:
+            return cumulative_allocation.get(full_months, 0)
+        else:
+            return cumulative_allocation[max_months] + cumulative_allocation[0] * (full_months - max_months)
 
 
 def get_earned_leave(employee=None):
@@ -115,9 +160,9 @@ def get_earned_leave(employee=None):
         return
 
     # Get settings once
-    include_partial_months = frappe.db.get_single_value(
-        "Craft HR Settings", "include_partial_months_in_earned_leave"
-    ) or 0
+    proration_method = frappe.db.get_single_value(
+        "Craft HR Settings", "earned_leave_proration_method"
+    ) or "Monthly"
 
     # Get unique employees and fetch their data in batch
     employee_ids = list(set(a.employee for a in allocations))
@@ -169,7 +214,7 @@ def get_earned_leave(employee=None):
             date_of_joining,
             to_date,
             alloc.custom_leave_distribution_template,
-            include_partial_months
+            proration_method=proration_method
         )
 
         key = (alloc.employee, alloc.leave_type, alloc.from_date, alloc.to_date)

@@ -42,6 +42,7 @@ fixtures = [
 
 doctype_js = {
     "Leave Allocation":"public/js/leave_allocation.js",
+    "Leave Encashment":"public/js/leave_encashment.js",
     "Additional Salary":"public/js/additional_salary.js",
     "Shift Type":"public/js/shift_type.js",
     "Payroll Entry":"public/js/payroll_entry.js",
@@ -202,7 +203,7 @@ scheduler_events = {
 		"craft_hr.tasks.daily.reset_leave_allocation",
 		"craft_hr.tasks.daily.update_leave_allocations",
 		"craft_hr.tasks.daily.close_expired_allocations",
-		"craft_hr.craft_hr.doctype.ticket_allocation.ticket_allocation.daily_event",
+		# "craft_hr.craft_hr.doctype.ticket_allocation.ticket_allocation.daily_event",  # TODO: Doctype missing
 	],
 	# "hourly": [
 	# 	"craft_hr.tasks.hourly"
@@ -288,8 +289,3 @@ override_doctype_dashboards = {
 # auth_hooks = [
 #	"craft_hr.auth.validate"
 # ]
-
-#TODO: Not Working. 2 overrides...
-override_doctype_dashboards = {
-	"Employee": "craft_hr.overrides.dashboard_overrides.get_dashboard_for_employee",
-}
