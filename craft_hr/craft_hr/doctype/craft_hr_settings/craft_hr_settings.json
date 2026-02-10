@@ -13,6 +13,7 @@
   "column_break_leave_1",
   "reset_allocation_with_carry_forward",
   "max_carry_forward_leaves",
+  "reset_allocation_to_date",
   "leave_automation_section",
   "auto_close_on_employee_separation",
   "auto_close_expired_allocations",
@@ -67,6 +68,12 @@
    "fieldname": "max_carry_forward_leaves",
    "fieldtype": "Float",
    "label": "Max Carry Forward Leaves"
+  },
+  {
+   "description": "Set the target end date for reset allocations. If empty, defaults to 1 year from expiry date.",
+   "fieldname": "reset_allocation_to_date",
+   "fieldtype": "Date",
+   "label": "Reset Allocation To Date"
   },
   {
    "fieldname": "leave_automation_section",
@@ -159,7 +166,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-08-21 11:23:28.434400",
+ "modified": "2026-02-09 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "Craft HR",
  "name": "Craft HR Settings",

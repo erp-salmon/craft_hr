@@ -60,11 +60,15 @@ class CustomLeaveEncashment(LeaveEncashment):
 
         # Handle encashment amount based on method
         if amount_method == "Auto":
-            salary_structure = get_second_last_salary_structure_assignment(
-                self.employee, self.encashment_date or getdate(nowdate())
-            )
-            if not salary_structure:
-                salary_structure = get_latest_salary_structure_assignment(self.employee)
+            if self.custom_salary_structure_assignment:
+                salary_structure = self.custom_salary_structure_assignment
+            else:
+                salary_structure = get_second_last_salary_structure_assignment(
+                    self.employee, self.encashment_date or getdate(nowdate())
+                )
+                if not salary_structure:
+                    salary_structure = get_latest_salary_structure_assignment(self.employee)
+                self.custom_salary_structure_assignment = salary_structure
 
             per_day_encashment = 0
             if salary_structure:
@@ -121,3 +125,34 @@ def get_latest_salary_structure_assignment(employee):
         {"employee": employee},
     )
     return salary_structure_assignment[0][0] if salary_structure_assignment else None
+
+
+@frappe.whitelist()
+@frappe.validate_and_sanitize_search_inputs
+def get_salary_structure_assignment_query(doctype, txt, searchfield, start, page_len, filters):
+    employee = filters.get("employee")
+    encashment_date = filters.get("encashment_date")
+
+    conditions = ""
+    if encashment_date:
+        conditions += " AND ssa.from_date <= %(encashment_date)s"
+
+    return frappe.db.sql(
+        """
+        SELECT ssa.name, ssa.from_date, ssa.salary_structure
+        FROM `tabSalary Structure Assignment` ssa
+        WHERE ssa.employee = %(employee)s
+        AND ssa.docstatus = 1
+        {conditions}
+        AND (ssa.name LIKE %(txt)s OR ssa.salary_structure LIKE %(txt)s)
+        ORDER BY ssa.from_date DESC
+        LIMIT %(page_len)s OFFSET %(start)s
+        """.format(conditions=conditions),
+        {
+            "employee": employee,
+            "encashment_date": encashment_date,
+            "txt": "%{}%".format(txt),
+            "start": start,
+            "page_len": page_len,
+        },
+    )

@@ -34,6 +34,7 @@ def reset_leave_allocation():
     carry_forward = settings.reset_allocation_with_carry_forward or 0
     max_carry_forward = settings.max_carry_forward_leaves or 0
     proration_method = settings.earned_leave_proration_method or "Monthly"
+    reset_to_date = settings.reset_allocation_to_date
 
     # Get employee data in batch
     employee_ids = list(set(a.employee for a in allocations))
@@ -73,7 +74,11 @@ def reset_leave_allocation():
 
         # Calculate new allocation dates
         new_from_date = frappe.utils.add_days(alloc.to_date, 1)
-        new_to_date = frappe.utils.add_years(alloc.to_date, 1)
+        # Use configured to_date if set and valid, otherwise add 1 year
+        if reset_to_date and frappe.utils.getdate(reset_to_date) > new_from_date:
+            new_to_date = frappe.utils.getdate(reset_to_date)
+        else:
+            new_to_date = frappe.utils.add_years(alloc.to_date, 1)
 
         # Skip if employee was relieved before new allocation period starts
         if emp.relieving_date and frappe.utils.getdate(emp.relieving_date) < new_from_date:

@@ -1,4 +1,16 @@
 frappe.ui.form.on('Leave Encashment', {
+    setup: function(frm) {
+        frm.set_query('custom_salary_structure_assignment', function() {
+            return {
+                query: 'craft_hr.overrides.leave_encashment.get_salary_structure_assignment_query',
+                filters: {
+                    employee: frm.doc.employee,
+                    encashment_date: frm.doc.encashment_date
+                }
+            };
+        });
+    },
+
     refresh: function(frm) {
         set_field_properties(frm);
     },
