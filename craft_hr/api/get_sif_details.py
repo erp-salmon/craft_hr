@@ -7,6 +7,7 @@ from frappe.utils import flt, cint, getdate, now, date_diff, today, formatdate, 
 def get_sif_details(employee=None,pe=None,company=None):
 	sl = frappe.db.get_list("Salary Slip",{'payroll_entry':pe,'docstatus':1},['employee','start_date','end_date','rounded_total'])
 	data = []
+	filename = ""
 	if sl:
 		total = 0
 		uniqueid_err = []
