@@ -40,6 +40,7 @@ frappe.ui.form.on("Additional Salary", {
     },
 
     to_date(frm) {
+        frm.doc.to_date = get_last_day_of_month(frm.doc.to_date);
         frm.trigger("calculate_monthly_amount");
     },
     calculate_monthly_amount(frm) {
@@ -123,7 +124,7 @@ function show_update_schedule_dialog(frm) {
             let current_from_date = frm.doc.from_date;
             let new_from_date = values.new_from_date;
             let current_to_date = frm.doc.to_date;
-            let new_to_date = values.new_to_date;
+            let new_to_date = get_last_day_of_month(values.new_to_date);
 
             let from_month_changed =
                 getYearMonth(current_from_date) !== getYearMonth(new_from_date);
@@ -132,12 +133,16 @@ function show_update_schedule_dialog(frm) {
                 getYearMonth(current_to_date) !== getYearMonth(new_to_date);
 
             if (from_month_changed || to_month_changed) {
+                frappe.show_alert({
+                    message: __('To date updated to {0}', [new_to_date]),
+                    indicator: 'green'
+                });
                 frappe.call({
                     method: "craft_hr.events.additional_salary.update_recovery_dates",
                     args: {
                         docname: frm.doc.name,
                         new_from: values.new_from_date,
-                        new_to: values.new_to_date
+                        new_to: new_to_date
                     },
                     callback: function (r) {
                         if (!r.exc) {
@@ -164,3 +169,9 @@ const getYearMonth = (date) => {
     return frappe.datetime.str_to_obj(date).getFullYear() + '-' +
         frappe.datetime.str_to_obj(date).getMonth();
 };
+
+function get_last_day_of_month(date_str) {
+    const d = new Date(date_str);
+    last_day = new Date(d.getFullYear(), d.getMonth() + 1, 0);
+    return frappe.datetime.obj_to_str(last_day)
+}
