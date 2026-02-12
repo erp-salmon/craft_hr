@@ -1,4 +1,6 @@
 import frappe
+from frappe.utils import getdate
+
 
 def before_validate(doc, method):
     joining_date = frappe.db.get_value("Employee",doc.employee,"date_of_joining")
@@ -31,9 +33,7 @@ def get_ot_from_attendance(doc,method=None):
                                       AND
                                         attendance_date BETWEEN %s AND %s
                                       """,(doc.employee,doc.start_date,doc.end_date))[0]
-    
-import frappe
-from frappe.utils import getdate
+
 
 def on_salary_slip_submit(doc, event):
     process_deduction(doc, is_cancel=False)

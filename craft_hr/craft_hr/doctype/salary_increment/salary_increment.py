@@ -4,7 +4,7 @@
 
 import frappe
 import json
-from frappe.database.database import getdate
+from frappe.utils import getdate
 from frappe.model.document import Document
 class SalaryIncrement(Document):
     component_fields = [

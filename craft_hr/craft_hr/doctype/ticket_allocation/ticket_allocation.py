@@ -9,8 +9,7 @@ from frappe.utils import add_days, nowdate
 
 class TicketAllocation(Document):
     def __init__(self, *args, **kwargs):
-        if self.docstatus == 0:
-            super().__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.settings = frappe.get_single("Craft HR Settings")
 
     def validate(self, method=None):

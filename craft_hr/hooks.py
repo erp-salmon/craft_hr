@@ -41,12 +41,13 @@ fixtures = [
 # doctype_js = {"doctype" : "public/js/doctype.js"}
 
 doctype_js = {
-    "Leave Allocation":"public/js/leave_allocation.js",
-    "Additional Salary":"public/js/additional_salary.js",
-    "Shift Type":"public/js/shift_type.js",
-    "Payroll Entry":"public/js/payroll_entry.js",
-    "Company":"public/js/company.js",
-    "Employee Advance":"public/js/employee_advance.js",
+    "Leave Allocation": "public/js/leave_allocation.js",
+    "Leave Encashment": "public/js/leave_encashment.js",
+    "Additional Salary": "public/js/additional_salary.js",
+    "Shift Type": "public/js/shift_type.js",
+    "Payroll Entry": "public/js/payroll_entry.js",
+    "Company": "public/js/company.js",
+    "Employee Advance": "public/js/employee_advance.js",
 }
 
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
@@ -130,12 +131,8 @@ after_install = "craft_hr.install.after_install"
 # Override standard doctype classes
 
 override_doctype_class = {
-	# "ToDo": "custom_app.overrides.CustomToDo"
-	"Leave Encashment":"craft_hr.overrides.leave_encashment.CustomLeaveEncashment",
-
-
-
- 
+	"Leave Encashment": "craft_hr.overrides.leave_encashment.CustomLeaveEncashment",
+	"Payroll Entry": "craft_hr.overrides.payroll_entry.CustomPayrollEntry",
 }
 
 # Document Events
@@ -157,13 +154,13 @@ doc_events = {
         # "after_submit": "craft_hr.events.leave_allocation.after_submit",
     },
     "Leave Application":{
-        "on_submit": "craft_hr.events.leave_application.on_submit",
-        "on_submit": "craft_hr.events.leave_application.create_deferred_leave_additional_salary",
+        "on_submit": [
+            "craft_hr.events.leave_application.on_submit",
+            "craft_hr.events.leave_application.create_deferred_leave_additional_salary"
+        ],
+        "validate": "craft_hr.events.leave_application.validate",
         "on_cancel": "craft_hr.events.leave_application.cancel_linked_additional_salary",
         "on_trash": "craft_hr.events.leave_application.delete_deferred_leave_additional_salary"
-
-
-
     },
     "Attendance":{
         "on_submit": "craft_hr.events.attendance.on_submit",
@@ -187,6 +184,9 @@ doc_events = {
     },
     "Employee Advance": {
         "validate": "craft_hr.events.employee_advance.validate"
+    },
+    "Employee": {
+        "on_update": "craft_hr.events.employee.on_update"
     }
 }
 
@@ -200,8 +200,8 @@ scheduler_events = {
 	"daily": [
 		"craft_hr.tasks.daily.reset_leave_allocation",
 		"craft_hr.tasks.daily.update_leave_allocations",
-        "craft_hr.craft_hr.doctype.ticket_allocation.ticket_allocation.daily_event",
-
+		"craft_hr.tasks.daily.close_expired_allocations",
+		"craft_hr.craft_hr.doctype.ticket_allocation.ticket_allocation.daily_event",
 	],
 	# "hourly": [
 	# 	"craft_hr.tasks.hourly"
@@ -288,7 +288,3 @@ override_doctype_dashboards = {
 #	"craft_hr.auth.validate"
 # ]
 
-#TODO: Not Working. 2 overrides...
-override_doctype_dashboards = {
-	"Employee": "craft_hr.overrides.dashboard_overrides.get_dashboard_for_employee",
-}

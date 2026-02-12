@@ -132,9 +132,6 @@ def unmark_deductions_as_reimbursed(doc, method):
         deduction_doc.db_set("custom_deferred_payment_reimbursed", 0)
 
 
-import frappe
-from frappe.utils import getdate
-from dateutil.relativedelta import relativedelta
 
 @frappe.whitelist()
 def update_recovery_dates(docname, new_from, new_to):

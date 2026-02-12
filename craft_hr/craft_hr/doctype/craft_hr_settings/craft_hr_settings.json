@@ -9,7 +9,15 @@
  "field_order": [
   "hr_features_section",
   "leave_allocation_based_on_leave_distribution_template",
+  "earned_leave_proration_method",
+  "column_break_leave_1",
   "reset_allocation_with_carry_forward",
+  "reset_allocation_to_date",
+  "leave_automation_section",
+  "auto_close_on_employee_separation",
+  "auto_close_expired_allocations",
+  "leave_encashment_section",
+  "encashment_amount_method",
   "shift_section",
   "manually_add_shift_hours",
   "ticket_allocation_section",
@@ -23,13 +31,70 @@
   {
    "fieldname": "hr_features_section",
    "fieldtype": "Section Break",
-   "label": "HR Features"
+   "label": "Leave Allocation Settings"
   },
   {
    "default": "0",
    "fieldname": "leave_allocation_based_on_leave_distribution_template",
    "fieldtype": "Check",
    "label": "Leave Allocation based on Leave Distribution Template"
+  },
+  {
+   "default": "Monthly",
+   "depends_on": "leave_allocation_based_on_leave_distribution_template",
+   "description": "Monthly: Full months only. Monthly (15+ days): Partial months with 15+ days count as full. Daily: Exact day-based pro-rating.",
+   "fieldname": "earned_leave_proration_method",
+   "fieldtype": "Select",
+   "label": "Earned Leave Proration Method",
+   "options": "Monthly\nMonthly (15+ days)\nDaily"
+  },
+  {
+   "fieldname": "column_break_leave_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "reset_allocation_with_carry_forward",
+   "fieldtype": "Check",
+   "label": "Reset Allocation with Carry Forward"
+  },
+  {
+   "description": "Set the target end date for reset allocations. If empty, defaults to 1 year from expiry date.",
+   "fieldname": "reset_allocation_to_date",
+   "fieldtype": "Date",
+   "label": "Reset Allocation To Date"
+  },
+  {
+   "fieldname": "leave_automation_section",
+   "fieldtype": "Section Break",
+   "label": "Leave Allocation Automation"
+  },
+  {
+   "default": "1",
+   "description": "Automatically close leave allocations when employee status changes to Left/Inactive or relieving date is set",
+   "fieldname": "auto_close_on_employee_separation",
+   "fieldtype": "Check",
+   "label": "Auto Close on Employee Separation"
+  },
+  {
+   "default": "1",
+   "description": "Automatically close expired leave allocations (where to_date has passed) via daily scheduler",
+   "fieldname": "auto_close_expired_allocations",
+   "fieldtype": "Check",
+   "label": "Auto Close Expired Allocations"
+  },
+  {
+   "fieldname": "leave_encashment_section",
+   "fieldtype": "Section Break",
+   "label": "Leave Encashment Settings"
+  },
+  {
+   "default": "Auto",
+   "description": "Auto: Fetch from Salary Structure Assignment. Manual: User enters encashment amount.",
+   "fieldname": "encashment_amount_method",
+   "fieldtype": "Select",
+   "label": "Encashment Amount Method",
+   "options": "Auto\nManual"
   },
   {
    "fieldname": "payroll_features_section",
@@ -41,12 +106,6 @@
    "fieldname": "assign_salary_components_during_assignment",
    "fieldtype": "Check",
    "label": "Assign salary components during assignment"
-  },
-  {
-   "default": "0",
-   "fieldname": "reset_allocation_with_carry_forward",
-   "fieldtype": "Check",
-   "label": "Reset Allocation with Carry Forward"
   },
   {
    "fieldname": "ticket_allocation_section",
@@ -84,7 +143,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-08-21 11:23:28.434400",
+ "modified": "2026-02-10 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "Craft HR",
  "name": "Craft HR Settings",
